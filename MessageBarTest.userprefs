@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.Prashant’s iPhone" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="MessageBarTest/AppDelegate.cs">
+    <Files>
+      <File FileName="MessageBarTest/MessageBarManager.cs" Line="1" Column="1" />
+      <File FileName="MessageBarTest/AppDelegate.cs" Line="24" Column="5" />
+      <File FileName="MessageBarTest/MessageView.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
