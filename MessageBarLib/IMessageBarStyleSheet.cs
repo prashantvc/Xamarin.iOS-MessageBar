@@ -43,28 +43,4 @@ namespace MessageBar
 	{
 		IMessageBarStyleSheet StyleSheetForMessageView (MessageView messageView);
 	}
-
-	public class MyClass:NSObject, IMessageViewDelegate
-	{
-		static MyClass _myClass;
-
-		public static MyClass GetInstance()
-		{
-			return _myClass ?? (_myClass = new MyClass ());
-		}
-
-		public MyClass ()
-		{
-			System.Console.WriteLine ("This is my class");
-		}
-
-		#region IMessageViewDelegate implementation
-
-		public IMessageBarStyleSheet StyleSheetForMessageView (MessageView messageView)
-		{
-			throw new System.NotImplementedException ();
-		}
-
-		#endregion
-	}
 }
