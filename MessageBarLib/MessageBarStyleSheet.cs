@@ -44,6 +44,9 @@ namespace MessageBar
 		readonly UIColor successStrokeColor = null;
 		readonly UIColor infoStrokeColor = null;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MessageBar.MessageBarStyleSheet"/> class.
+		/// </summary>
 		public MessageBarStyleSheet ()
 		{
 			errorBackgroundColor = UIColor.FromRGBA (1.0f, 0.611f, 0.0f, Alpha);
@@ -54,6 +57,11 @@ namespace MessageBar
 			infoStrokeColor = UIColor.FromRGBA (0.0f, 0.415f, 0.803f, 1.0f);
 		}
 
+		/// <summary>
+		/// Provides the background colour for message type
+		/// </summary>
+		/// <returns>The background colour for message type.</returns>
+		/// <param name="type">Message type</param>
 		public virtual UIColor BackgroundColorForMessageType (MessageType type)
 		{
 			UIColor backgroundColor = null;
@@ -72,6 +80,11 @@ namespace MessageBar
 			return backgroundColor;
 		}
 
+		/// <summary>
+		/// Provides the stroke colour for message type
+		/// </summary>
+		/// <returns>The stroke colour for message type.</returns>
+		/// <param name="type">Message type</param>
 		public virtual UIColor StrokeColorForMessageType (MessageType type)
 		{
 			UIColor strokeColor = null;
@@ -90,6 +103,11 @@ namespace MessageBar
 			return strokeColor;
 		}
 
+		/// <summary>
+		/// Provides the icon for message type
+		/// </summary>
+		/// <returns>The icon for message type.</returns>
+		/// <param name="type">Message type</param>
 		public virtual UIImage IconImageForMessageType (MessageType type)
 		{
 			UIImage iconImage = null;
@@ -103,7 +121,6 @@ namespace MessageBar
 			case MessageType.Info:
 				iconImage = UIImage.FromBundle (InfoIcon);
 				break;
-
 			}
 
 			return iconImage;

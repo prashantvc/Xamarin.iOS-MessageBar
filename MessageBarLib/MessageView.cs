@@ -85,7 +85,7 @@ namespace MessageBar
 			}
 		}
 
-		public IStyleSheetProvider StylesheetProvider { get; set; }
+		internal IStyleSheetProvider StylesheetProvider { get; set; }
 
 		static MessageView ()
 		{

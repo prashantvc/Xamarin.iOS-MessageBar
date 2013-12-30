@@ -53,7 +53,6 @@
     <Compile Include="MessageBarMessageType.cs" />
     <Compile Include="MessageView.cs" />
     <Compile Include="MessageBarStyleSheet.cs" />
-    <Compile Include="IStyleSheetProvider.cs" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

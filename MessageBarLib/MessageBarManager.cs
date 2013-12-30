@@ -35,6 +35,16 @@ using System.Threading;
 
 namespace MessageBar
 {
+	interface IStyleSheetProvider
+	{
+		/// <summary>
+		/// Stylesheet for message view.
+		/// </summary>
+		/// <returns>The style sheet for message view.</returns>
+		/// <param name="messageView">Message view.</param>
+		MessageBarStyleSheet StyleSheetForMessageView (MessageView messageView);
+	}
+
 	public class MessageBarManager : NSObject, IStyleSheetProvider
 	{
 		public static MessageBarManager SharedInstance {
@@ -57,6 +67,10 @@ namespace MessageBar
 			get{ return messageBarQueue; }
 		}
 
+		/// <summary>
+		/// Gets or sets the style sheet.
+		/// </summary>
+		/// <value>The style sheet.</value>
 		public MessageBarStyleSheet StyleSheet {
 			get {
 				return styleSheet;
@@ -68,11 +82,24 @@ namespace MessageBar
 			}
 		}
 
+		/// <summary>
+		/// Shows the message
+		/// </summary>
+		/// <param name="title">Messagebar title</param>
+		/// <param name="description">Messagebar description</param>
+		/// <param name="type">Message type</param>
 		public void ShowMessage (string title, string description, MessageType type)
 		{
 			ShowMessage (title, description, type, null);
 		}
 
+		/// <summary>
+		/// Shows the message
+		/// </summary>
+		/// <param name="title">Messagebar title</param>
+		/// <param name="description">Messagebar description</param>
+		/// <param name="type">Message type</param>
+		/// <param name = "onDismiss">OnDismiss callback</param>
 		public void ShowMessage (string title, string description, MessageType type, Action onDismiss)
 		{
 			var messageView = new MessageView (title, description, type);
@@ -114,6 +141,9 @@ namespace MessageBar
 			}
 		}
 
+		/// <summary>
+		/// Hides all messages
+		/// </summary>
 		public void HideAll ()
 		{
 			MessageView currentMessageView = null;
