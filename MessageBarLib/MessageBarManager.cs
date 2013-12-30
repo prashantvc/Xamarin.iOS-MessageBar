@@ -35,7 +35,7 @@ using System.Threading;
 
 namespace MessageBar
 {
-	public class MessageBarManager : NSObject, IMessageViewDelegate
+	public class MessageBarManager : NSObject, IStyleSheetProvider
 	{
 		public static MessageBarManager SharedInstance {
 			get{ return instance ?? (instance = new MessageBarManager ()); }
@@ -46,7 +46,7 @@ namespace MessageBar
 			messageBarQueue = new Queue<MessageView> ();
 			MessageVisible = false;
 			MessageBarOffset = UIApplication.SharedApplication.StatusBarFrame.Size.Height;
-			styleSheet = DefaultMessageBarStyleSheet.StyleSheet;
+			styleSheet = new MessageBarStyleSheet();
 		}
 
 		float MessageBarOffset { get; set; }
@@ -57,7 +57,7 @@ namespace MessageBar
 			get{ return messageBarQueue; }
 		}
 
-		public IMessageBarStyleSheet StyleSheet {
+		public MessageBarStyleSheet StyleSheet {
 			get {
 				return styleSheet;
 			}
@@ -76,7 +76,7 @@ namespace MessageBar
 		public void ShowMessage (string title, string description, MessageType type, Action onDismiss)
 		{
 			var messageView = new MessageView (title, description, type);
-			messageView.Delegate = this;
+			messageView.StylesheetProvider = this;
 			messageView.OnDismiss = onDismiss;
 			messageView.Hidden = true;
 			UIApplication.SharedApplication.KeyWindow.InsertSubview (messageView, 1);
@@ -132,7 +132,7 @@ namespace MessageBar
 			CancelPreviousPerformRequest (this);
 		}
 
-		void MessageTapped (UITapGestureRecognizer recognizer)
+		void MessageTapped (UIGestureRecognizer recognizer)
 		{
 			var view = recognizer.View as MessageView;
 			if (view != null) {
@@ -179,15 +179,15 @@ namespace MessageBar
 
 		const float DisplayDelay = 3.0f;
 		const float DismissAnimationDuration = 0.25f;
-		IMessageBarStyleSheet styleSheet;
+		MessageBarStyleSheet styleSheet;
 		readonly Queue<MessageView> messageBarQueue;
 		static MessageBarManager instance;
 
-		#region IMessageViewDelegate implementation
+		#region IStyleSheetProvider implementation
 
-		public IMessageBarStyleSheet StyleSheetForMessageView (MessageView messageView)
+		public MessageBarStyleSheet StyleSheetForMessageView (MessageView messageView)
 		{
-			return DefaultMessageBarStyleSheet.StyleSheet;
+			return StyleSheet;
 		}
 
 		#endregion

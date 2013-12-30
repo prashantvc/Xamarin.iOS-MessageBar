@@ -1,12 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.Prashant’s iPhone" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MessageBarLib/MessageView.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.0" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="MessageBarLib/IMessageBarStyleSheet.cs">
     <Files>
-      <File FileName="MessageBarLib/MessageView.cs" Line="16" Column="1" />
-      <File FileName="MessageBarLib/IMessageBarStyleSheet.cs" Line="1" Column="1" />
-      <File FileName="MessageBarLib/MessageBarManager.cs" Line="1" Column="1" />
-      <File FileName="MessageBarLib/MessageBarMessageType.cs" Line="1" Column="1" />
-      <File FileName="MessageBarTest/AppDelegate.cs" Line="1" Column="1" />
+      <File FileName="MessageBarTest/AppDelegate.cs" Line="10" Column="36" />
+      <File FileName="MessageBarLib/IMessageBarStyleSheet.cs" Line="26" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

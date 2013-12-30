@@ -85,7 +85,7 @@ namespace MessageBar
 			}
 		}
 
-		public IMessageViewDelegate Delegate { get; set; }
+		public IStyleSheetProvider StylesheetProvider { get; set; }
 
 		static MessageView ()
 		{
@@ -119,7 +119,7 @@ namespace MessageBar
 		{
 			var context = UIGraphics.GetCurrentContext ();
 
-			IMessageBarStyleSheet styleSheet = Delegate.StyleSheetForMessageView (this);
+			MessageBarStyleSheet styleSheet = StylesheetProvider.StyleSheetForMessageView (this);
 			context.SaveState ();
 
 			styleSheet.BackgroundColorForMessageType (MessageType).SetColor ();

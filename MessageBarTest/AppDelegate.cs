@@ -20,20 +20,19 @@ namespace MessageBarTest
 		{
 			window = new UIWindow (UIScreen.MainScreen.Bounds);
 
-			var manager = MessageBarManager.SharedInstance;
-			Console.WriteLine (manager);
-
 			var menu = new RootElement ("Message Test") {
 				new Section { 
 					new StringElement ("Show Info", () =>
 						MessageBarManager.SharedInstance.ShowMessage
 						("Info", "This is information", MessageType.Info, 
-							delegate{
+							delegate {
 								Console.WriteLine ("This is callback!");
 							})),
+
 					new StringElement ("Show Error", () =>
 						MessageBarManager.SharedInstance.ShowMessage
 							("Error", "This is error", MessageType.Error)),
+
 					new StringElement ("Show Success", () =>
 						MessageBarManager.SharedInstance.ShowMessage
 						("Success", "This is success", MessageType.Success))

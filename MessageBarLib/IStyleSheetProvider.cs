@@ -24,23 +24,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-
 namespace MessageBar
 {
-	public interface IMessageBarStyleSheet
+	public interface IStyleSheetProvider
 	{
-		UIColor BackgroundColorForMessageType (MessageType type);
-
-		UIColor StrokeColorForMessageType (MessageType type);
-
-		UIImage IconImageForMessageType (MessageType type);
-	}
-
-	public interface IMessageViewDelegate
-	{
-		IMessageBarStyleSheet StyleSheetForMessageView (MessageView messageView);
+		MessageBarStyleSheet StyleSheetForMessageView (MessageView messageView);
 	}
 }

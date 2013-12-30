@@ -49,11 +49,11 @@
     <BundleResource Include="Resources\icon-success%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultMessageBarStyleSheet.cs" />
-    <Compile Include="IMessageBarStyleSheet.cs" />
     <Compile Include="MessageBarManager.cs" />
     <Compile Include="MessageBarMessageType.cs" />
     <Compile Include="MessageView.cs" />
+    <Compile Include="MessageBarStyleSheet.cs" />
+    <Compile Include="IStyleSheetProvider.cs" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

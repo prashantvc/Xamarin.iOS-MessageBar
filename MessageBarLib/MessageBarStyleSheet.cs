@@ -30,8 +30,8 @@ using MonoTouch.UIKit;
 
 namespace MessageBar
 {
-	public class DefaultMessageBarStyleSheet : IMessageBarStyleSheet
-	{
+	public class MessageBarStyleSheet {
+
 		const float Alpha = 0.96f;
 		const string ErrorIcon = "icon-error.png";
 		const string SuccessIcon = "icon-success.png";
@@ -44,9 +44,7 @@ namespace MessageBar
 		readonly UIColor successStrokeColor = null;
 		readonly UIColor infoStrokeColor = null;
 
-		static DefaultMessageBarStyleSheet instance;
-
-		DefaultMessageBarStyleSheet ()
+		public MessageBarStyleSheet ()
 		{
 			errorBackgroundColor = UIColor.FromRGBA (1.0f, 0.611f, 0.0f, Alpha);
 			successBackgroundColor = UIColor.FromRGBA (0.0f, 0.831f, 0.176f, Alpha);
@@ -56,12 +54,7 @@ namespace MessageBar
 			infoStrokeColor = UIColor.FromRGBA (0.0f, 0.415f, 0.803f, 1.0f);
 		}
 
-		public static DefaultMessageBarStyleSheet StyleSheet
-		{
-			get{return instance ?? (instance = new DefaultMessageBarStyleSheet ());}
-		}
-
-		public UIColor BackgroundColorForMessageType (MessageType type)
+		public virtual UIColor BackgroundColorForMessageType (MessageType type)
 		{
 			UIColor backgroundColor = null;
 			switch (type) {
@@ -79,7 +72,7 @@ namespace MessageBar
 			return backgroundColor;
 		}
 
-		public UIColor StrokeColorForMessageType (MessageType type)
+		public virtual UIColor StrokeColorForMessageType (MessageType type)
 		{
 			UIColor strokeColor = null;
 			switch (type) {
@@ -97,7 +90,7 @@ namespace MessageBar
 			return strokeColor;
 		}
 
-		public UIImage IconImageForMessageType (MessageType type)
+		public virtual UIImage IconImageForMessageType (MessageType type)
 		{
 			UIImage iconImage = null;
 			switch (type) {
