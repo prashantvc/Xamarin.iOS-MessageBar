@@ -8,13 +8,13 @@ By default the MessageBar is accessble through `MessageBarManager.SharedInstance
 You can show messages by calling `ShowMessage` method.
 
 	//Show message from Shared instance, with the title and description
-	MessageBarManager.SharedInstance.ShowMessage ("Success", "This is success", MessageType.Success))
+	MessageBarManager.SharedInstance.ShowMessage ("Success", "This is success", MessageType.Success)
 	
 Show messages with callback:
 
 	//Provide callback to execute on dismiss
 	MessageBarManager.SharedInstance.ShowMessage ("Info", "This is information", MessageType.Info, 
-						() => Console.WriteLine ("This is callback!")))
+						() => Console.WriteLine ("This is callback!"))
 						
 
 ###Customisation
