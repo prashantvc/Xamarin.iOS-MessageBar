@@ -12,11 +12,11 @@ System-wide dropdown messages/notifications for your iOS apps.
 
 ###Easy and Simple
 	//Show message from Shared instance, with the title and description
-	MessageBarManager.SharedInstance.ShowMessage ("Success", "This is success", MessageType.Success))
+	MessageBarManager.SharedInstance.ShowMessage ("Success", "This is success", MessageType.Success)
 	
 	//Provide callback to execute on dismiss
 	MessageBarManager.SharedInstance.ShowMessage ("Info", "This is information", MessageType.Info, 
-						() => Console.WriteLine ("This is callback!")))
+						() => Console.WriteLine ("This is callback!"))
   
 
   
