@@ -42,6 +42,9 @@ namespace MessageBar
 		const float IconSize = 36.0f;
 		const float TextOffset = 2.0f;
 		static readonly UIColor DescriptionColor = null;
+		float height;
+		float width;
+
 
 		NSString Title { get; set; }
 
@@ -53,7 +56,6 @@ namespace MessageBar
 
 		public bool Hit { get; set; }
 
-		float height;
 
 		public float Height {
 			get {
@@ -69,9 +71,7 @@ namespace MessageBar
 				height = value;
 			}
 		}
-
-		float width;
-
+			
 		public float Width {
 			get {
 				if (width == 0) {
@@ -86,6 +86,13 @@ namespace MessageBar
 		}
 
 		internal IStyleSheetProvider StylesheetProvider { get; set; }
+
+		float AvailableWidth {
+			get {
+				float maxWidth = (Width - (Padding * 3) - IconSize);
+				return maxWidth;
+			}
+		}
 
 		static MessageView ()
 		{
@@ -118,7 +125,6 @@ namespace MessageBar
 		}
 
 		void OrientationChanged (NSNotification notification){
-			Console.WriteLine ("Orienatation changed");
 			Frame = new RectangleF (Frame.X, Frame.Y, GetStatusBarFrame ().Width, Frame.Height);
 			SetNeedsDisplay ();
 		}
@@ -193,12 +199,6 @@ namespace MessageBar
 			Description.DrawString (descriptionRectangle, DescriptionFont, UILineBreakMode.TailTruncation, UITextAlignment.Left);
 		}
 
-		float AvailableWidth {
-			get {
-				float maxWidth = (Width - (Padding * 3) - IconSize);
-				return maxWidth;
-			}
-		}
 
 		SizeF TitleSize ()
 		{

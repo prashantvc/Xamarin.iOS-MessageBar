@@ -82,6 +82,12 @@ namespace MessageBar
 			}
 		}
 
+		UIView MessageWindowView{
+			get{
+				return  GetMessageBarViewController ().View;
+			}
+		}
+
 		/// <summary>
 		/// Shows the message
 		/// </summary>
@@ -91,12 +97,6 @@ namespace MessageBar
 		public void ShowMessage (string title, string description, MessageType type)
 		{
 			ShowMessage (title, description, type, null);
-		}
-
-		UIView MessageWindowView{
-			get{
-				return  GetMessageBarViewController ().View;
-			}
 		}
 
 		/// <summary>
