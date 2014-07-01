@@ -8,7 +8,7 @@ System-wide dropdown messages for iOS
 ![Screenshot](http://i.imgur.com/9Pei757.png)
 
 ###To-Do
-- Support landscape mode
+- ~~Support landscape mode~~
 - Swipe left to dismiss the message
 
 ---
