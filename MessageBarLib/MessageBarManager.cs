@@ -56,7 +56,7 @@ namespace MessageBar
 			messageBarQueue = new Queue<MessageView> ();
 			MessageVisible = false;
 			MessageBarOffset = UIApplication.SharedApplication.StatusBarFrame.Size.Height;
-			styleSheet = new MessageBarStyleSheet();
+			styleSheet = new MessageBarStyleSheet ();
 		}
 
 		float MessageBarOffset { get; set; }
@@ -93,6 +93,12 @@ namespace MessageBar
 			ShowMessage (title, description, type, null);
 		}
 
+		UIView MessageWindowView{
+			get{
+				return  GetMessageBarViewController ().View;
+			}
+		}
+
 		/// <summary>
 		/// Shows the message
 		/// </summary>
@@ -106,7 +112,12 @@ namespace MessageBar
 			messageView.StylesheetProvider = this;
 			messageView.OnDismiss = onDismiss;
 			messageView.Hidden = true;
-			UIApplication.SharedApplication.KeyWindow.InsertSubview (messageView, 1);
+
+			//UIApplication.SharedApplication.KeyWindow.InsertSubview (messageView, 1);
+
+			MessageWindowView.AddSubview (messageView);
+			MessageWindowView.BringSubviewToFront (messageView);
+
 			MessageBarQueue.Enqueue (messageView);
 		
 			if (!MessageVisible) {
@@ -147,7 +158,7 @@ namespace MessageBar
 		public void HideAll ()
 		{
 			MessageView currentMessageView = null;
-			var subviews = UIApplication.SharedApplication.KeyWindow.Subviews;
+			var subviews = MessageWindowView.Subviews;
 
 			foreach (UIView subview in subviews) {
 				var view = subview as MessageView;
@@ -187,8 +198,8 @@ namespace MessageBar
 					delegate {
 						messageView.Frame = new RectangleF (
 							messageView.Frame.X, 
-							messageView.Frame.Y - messageView.Height - MessageBarOffset, 
-							messageView.Width, messageView.Height);
+							- (messageView.Frame.Height - MessageBarOffset), 
+							messageView.Frame.Width, messageView.Frame.Height);
 					}, 
 					delegate {
 						MessageVisible = false;
@@ -207,6 +218,24 @@ namespace MessageBar
 			}
 		}
 
+		MessageBarViewController GetMessageBarViewController ()
+		{
+			if (messageWindow == null) {
+				messageWindow = new MessageWindow () {
+					Frame = UIApplication.SharedApplication.KeyWindow.Frame,
+					Hidden = false,
+					WindowLevel = UIWindowLevel.Normal,
+					BackgroundColor = UIColor.Clear,
+					RootViewController = new MessageBarViewController()
+				};
+
+			}
+
+			return (MessageBarViewController) messageWindow.RootViewController;
+		}
+
+		 
+		MessageWindow messageWindow;
 		const float DisplayDelay = 3.0f;
 		const float DismissAnimationDuration = 0.25f;
 		MessageBarStyleSheet styleSheet;

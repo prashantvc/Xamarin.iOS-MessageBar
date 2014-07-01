@@ -75,7 +75,7 @@ namespace MessageBar
 		public float Width {
 			get {
 				if (width == 0) {
-					width = UIScreen.MainScreen.Bounds.Size.Width;
+					width = GetStatusBarFrame ().Width;
 				}
 
 				return width;
@@ -113,6 +113,38 @@ namespace MessageBar
 			Height = 0.0f;
 			Width = 0.0f;
 			Hit = false;
+
+			NSNotificationCenter.DefaultCenter.AddObserver (UIDevice.OrientationDidChangeNotification, OrientationChanged);
+		}
+
+		void OrientationChanged (NSNotification notification){
+			Console.WriteLine ("Orienatation changed");
+			Frame = new RectangleF (Frame.X, Frame.Y, GetStatusBarFrame ().Width, Frame.Height);
+			SetNeedsDisplay ();
+		}
+
+		RectangleF GetStatusBarFrame()
+		{
+			var windowFrame = OrientFrame (UIApplication.SharedApplication.KeyWindow.Frame);
+			var statusFrame = OrientFrame (UIApplication.SharedApplication.StatusBarFrame);
+
+			return new RectangleF (windowFrame.X, windowFrame.Y, windowFrame.Width, statusFrame.Height);
+		}
+
+		RectangleF OrientFrame(RectangleF frame){
+			if (IsDeviceLandscape(UIDevice.CurrentDevice.Orientation) || IsStatusBarLandscape(UIApplication.SharedApplication.StatusBarOrientation)) {
+				frame = new RectangleF (frame.X, frame.Y, frame.Height, frame.Width);
+			}
+
+			return frame;
+		}
+
+		bool IsDeviceLandscape (UIDeviceOrientation orientation) {
+			return orientation == UIDeviceOrientation.LandscapeLeft || orientation == UIDeviceOrientation.LandscapeRight;
+		}
+
+		bool IsStatusBarLandscape (UIInterfaceOrientation orientation) {
+			return orientation == UIInterfaceOrientation.LandscapeLeft || orientation == UIInterfaceOrientation.LandscapeRight;
 		}
 
 		public override void Draw (RectangleF rect)
