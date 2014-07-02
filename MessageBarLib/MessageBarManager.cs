@@ -55,7 +55,7 @@ namespace MessageBar
 		{
 			messageBarQueue = new Queue<MessageView> ();
 			MessageVisible = false;
-			MessageBarOffset = UIApplication.SharedApplication.StatusBarFrame.Size.Height;
+			MessageBarOffset = 20;
 			styleSheet = new MessageBarStyleSheet ();
 		}
 
