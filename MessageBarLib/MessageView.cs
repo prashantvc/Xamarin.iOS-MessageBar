@@ -238,9 +238,7 @@ namespace MessageBar
 
 		bool IsRunningiOS7OrLater ()
 		{
-			string systemVersion = UIDevice.CurrentDevice.SystemVersion;
-
-			return systemVersion.Contains ("7");
+            return UIDevice.CurrentDevice.CheckSystemVersion(7, 0);
 		}
 	}
 }
