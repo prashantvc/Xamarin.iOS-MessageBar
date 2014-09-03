@@ -55,15 +55,22 @@ namespace MessageBar
 		{
 			messageBarQueue = new Queue<MessageView> ();
 			MessageVisible = false;
-			MessageBarOffset = 20;
 			styleSheet = new MessageBarStyleSheet ();
 		}
 
-		float MessageBarOffset { get; set; }
-
 		bool MessageVisible{ get; set; }
 
-		Queue<MessageView> MessageBarQueue {
+	    public bool ShowFromBottom { get; set; }
+
+        private float _displayDuration = 3.0f;
+
+	    public float DisplayDuration
+	    {
+	        get { return _displayDuration; }
+	        set { _displayDuration = value > default(float) ? value : default(float); }
+	    }
+
+	    Queue<MessageView> MessageBarQueue {
 			get{ return messageBarQueue; }
 		}
 
@@ -108,7 +115,7 @@ namespace MessageBar
 		/// <param name = "onDismiss">OnDismiss callback</param>
 		public void ShowMessage (string title, string description, MessageType type, Action onDismiss)
 		{
-			var messageView = new MessageView (title, description, type);
+			var messageView = new MessageView (title, description, type, ShowFromBottom);
 			messageView.StylesheetProvider = this;
 			messageView.OnDismiss = onDismiss;
 			messageView.Hidden = true;
@@ -130,7 +137,11 @@ namespace MessageBar
 			if (MessageBarQueue.Count > 0) {
 				MessageVisible = true;
 				MessageView messageView = MessageBarQueue.Dequeue ();
-				messageView.Frame = new RectangleF (0, -messageView.Height, messageView.Width, messageView.Height);
+				messageView.Frame = new RectangleF (0, 
+                    ShowFromBottom
+                        ? UIApplication.SharedApplication.KeyWindow.Frame.Height + messageView.Height
+                        : -messageView.Height
+                    , messageView.Width, messageView.Height);
 				messageView.Hidden = false;
 				messageView.SetNeedsDisplay ();
 
@@ -142,12 +153,14 @@ namespace MessageBar
 				UIView.Animate (DismissAnimationDuration, 
 					() => 
 						messageView.Frame = new RectangleF (messageView.Frame.X, 
-						MessageBarOffset + messageView.Frame.Y + messageView.Height, 
+                        ShowFromBottom
+                            ? UIApplication.SharedApplication.KeyWindow.Frame.Height - messageView.Height
+                            : messageView.Frame.Y + messageView.Height, 
 						messageView.Width, messageView.Height)
 				);
 
 				//Need a better way of dissmissing the method
-				var dismiss = new Timer (DismissMessage, messageView, TimeSpan.FromSeconds (DisplayDelay),
+				var dismiss = new Timer (DismissMessage, messageView, TimeSpan.FromSeconds (DisplayDuration),
 					              TimeSpan.FromMilliseconds (-1));
 			}
 		}
@@ -198,7 +211,9 @@ namespace MessageBar
 					delegate {
 						messageView.Frame = new RectangleF (
 							messageView.Frame.X, 
-							- (messageView.Frame.Height - MessageBarOffset), 
+                            ShowFromBottom
+                                ? UIApplication.SharedApplication.KeyWindow.Frame.Height + messageView.Height
+							    : - (messageView.Frame.Height), 
 							messageView.Frame.Width, messageView.Frame.Height);
 					}, 
 					delegate {
@@ -236,7 +251,6 @@ namespace MessageBar
 
 		 
 		MessageWindow messageWindow;
-		const float DisplayDelay = 3.0f;
 		const float DismissAnimationDuration = 0.25f;
 		MessageBarStyleSheet styleSheet;
 		readonly Queue<MessageView> messageBarQueue;

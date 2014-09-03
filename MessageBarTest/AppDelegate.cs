@@ -16,9 +16,13 @@ namespace MessageBarTest
 		UIWindow window;
 		UINavigationController navigation;
 
+	    private StringElement changeDisplayPositionElement;
+
 		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 		{
 			window = new UIWindow (UIScreen.MainScreen.Bounds);
+
+		    MessageBarManager.SharedInstance.DisplayDuration = .5f;
 
 			var menu = new RootElement ("Message Test") {
 				new Section { 
@@ -39,6 +43,25 @@ namespace MessageBarTest
 				},
 				new Section {
 					new StringElement ("Hide all", MessageBarManager.SharedInstance.HideAll)
+				},
+                new Section {
+				    (changeDisplayPositionElement = new StringElement("Show from bottom", ChangeDisplayPosition))
+				},
+                new Section {
+				    (new StringElement("Increase display duration", () =>
+				    {
+				        MessageBarManager.SharedInstance.DisplayDuration += .25f;
+				        MessageBarManager.SharedInstance.ShowMessage
+				            ("Info", string.Format("Duration increased to {0}", MessageBarManager.SharedInstance.DisplayDuration),
+				                MessageType.Info);
+				    })),
+                    (new StringElement("Decrease display duration", () =>
+                    {
+                        MessageBarManager.SharedInstance.DisplayDuration -= .25f;
+                        MessageBarManager.SharedInstance.ShowMessage
+                            ("Info", string.Format("Duration decreased to {0}", MessageBarManager.SharedInstance.DisplayDuration),
+                                MessageType.Info);
+                    }))
 				}
 			};
 
@@ -54,6 +77,25 @@ namespace MessageBarTest
 
 			return true;
 		}
+
+	    private void ChangeDisplayPosition()
+	    {
+
+		    MessageBarManager.SharedInstance.ShowFromBottom = !MessageBarManager.SharedInstance.ShowFromBottom;
+
+		    changeDisplayPositionElement.Caption = 
+                MessageBarManager.SharedInstance.ShowFromBottom
+                    ? "Show from top"
+                    : "Show from bottom";
+
+            changeDisplayPositionElement.GetImmediateRootElement().Reload(changeDisplayPositionElement, UITableViewRowAnimation.Automatic);
+
+
+            MessageBarManager.SharedInstance.ShowMessage(
+                "Info", 
+                string.Format("Display from {0}", MessageBarManager.SharedInstance.ShowFromBottom ? "bottom" : "top"), 
+                MessageType.Info);
+	    }
 	}
 }
 
