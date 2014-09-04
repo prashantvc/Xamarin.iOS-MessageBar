@@ -45,6 +45,7 @@ namespace MessageBar
 		float height;
 		float width;
 
+	    private bool ShowFromBottom { get; set; }
 
 		NSString Title { get; set; }
 
@@ -59,13 +60,16 @@ namespace MessageBar
 
 		public float Height {
 			get {
-				if (height == 0) {
-					SizeF titleLabelSize = TitleSize ();
-					SizeF descriptionLabelSize = DescriptionSize ();
-					height = Math.Max ((Padding * 2) + titleLabelSize.Height + descriptionLabelSize.Height, (Padding * 2) + IconSize);
-				}
+			    if (height != 0) return height;
 
-				return height;
+			    SizeF titleLabelSize = TitleSize ();
+			    SizeF descriptionLabelSize = DescriptionSize ();
+			    height = Math.Max ((Padding * 2) + titleLabelSize.Height + descriptionLabelSize.Height, (Padding * 2) + IconSize);
+
+			    if (!ShowFromBottom)
+			        height += GetStatusBarFrame().Height;
+
+			    return height;
 			}
 			private set {
 				height = value;
@@ -102,13 +106,13 @@ namespace MessageBar
 			DescriptionColor = UIColor.FromWhiteAlpha (1.0f, 1.0f);
 		}
 
-		internal MessageView (string title, string description, MessageType type)
-			: this ((NSString)title, (NSString)description, type)
+        internal MessageView(string title, string description, MessageType type, bool showFromBottom = false)
+            : this((NSString)title, (NSString)description, type, showFromBottom)
 		{
 			
 		}
 
-		internal MessageView (NSString title, NSString description, MessageType type)
+		internal MessageView (NSString title, NSString description, MessageType type, bool showFromBottom = false)
 			: base (RectangleF.Empty)
 		{
 			BackgroundColor = UIColor.Clear;
@@ -120,6 +124,7 @@ namespace MessageBar
 			Height = 0.0f;
 			Width = 0.0f;
 			Hit = false;
+		    ShowFromBottom = showFromBottom;
 
 			NSNotificationCenter.DefaultCenter.AddObserver (UIDevice.OrientationDidChangeNotification, OrientationChanged);
 		}
@@ -176,7 +181,12 @@ namespace MessageBar
 
 			
 			float xOffset = Padding;
+
+
 			float yOffset = Padding;
+            if (!ShowFromBottom)
+                yOffset += GetStatusBarFrame().Height;
+
 			styleSheet.IconImageForMessageType (MessageType).Draw (new RectangleF (xOffset, yOffset, IconSize, IconSize));
 			context.SaveState ();
 				
@@ -198,7 +208,6 @@ namespace MessageBar
 			var descriptionRectangle = new RectangleF (xOffset, yOffset, descriptionLabelSize.Width, descriptionLabelSize.Height);
 			Description.DrawString (descriptionRectangle, DescriptionFont, UILineBreakMode.TailTruncation, UITextAlignment.Left);
 		}
-
 
 		SizeF TitleSize ()
 		{
@@ -238,9 +247,7 @@ namespace MessageBar
 
 		bool IsRunningiOS7OrLater ()
 		{
-			string systemVersion = UIDevice.CurrentDevice.SystemVersion;
-
-			return systemVersion.Contains ("7");
+			return UIDevice.CurrentDevice.CheckSystemVersion(7, 0);
 		}
 	}
 }
