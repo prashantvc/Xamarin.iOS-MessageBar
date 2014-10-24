@@ -240,7 +240,7 @@ namespace MessageBar
 		{
 			string systemVersion = UIDevice.CurrentDevice.SystemVersion;
 
-			return systemVersion.Contains ("7");
+			return systemVersion.Contains ("8") || systemVersion.Contains("7");
 		}
 	}
 }
