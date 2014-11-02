@@ -24,8 +24,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+#if __UNIFIED__
+using UIKit;
+#else
 using MonoTouch.UIKit;
-
+#endif
 namespace MessageBar
 {
 	public class MessageBarViewController : UIViewController

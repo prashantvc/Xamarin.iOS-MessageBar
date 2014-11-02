@@ -24,13 +24,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#if __UNIFIED__
+using UIKit;
+using PointF=CoreGraphics.CGPoint;
+#else
+using System.Drawing;
 using MonoTouch.UIKit;
-
+#endif
 namespace MessageBar
 {
 	public class MessageWindow : UIWindow
 	{
-		public override UIView HitTest (System.Drawing.PointF point, UIEvent uievent)
+		public override UIView HitTest (PointF point, UIEvent uievent)
 		{
 			var hitView = base.HitTest (point, uievent);
 

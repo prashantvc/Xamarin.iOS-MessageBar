@@ -27,11 +27,18 @@
 
 
 using System;
-using MonoTouch.UIKit;
 using System.Drawing;
-using MonoTouch.Foundation;
 using System.Collections.Generic;
 using System.Threading;
+
+#if __UNIFIED__
+using UIKit;
+using Foundation;
+using RectangleF=CoreGraphics.CGRect;
+#else
+using MonoTouch.UIKit;
+using MonoTouch.Foundation;
+#endif
 
 namespace MessageBar
 {
