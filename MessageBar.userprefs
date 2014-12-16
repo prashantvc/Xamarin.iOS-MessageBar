@@ -1,14 +1,6 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone5s.7.1" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MessageBarTest/AppDelegate.cs">
-    <Files>
-      <File FileName="MessageBarLib/MessageWindow.cs" Line="35" Column="35" />
-      <File FileName="MessageBarLib/MessageBarManager.cs" Line="38" Column="38" />
-      <File FileName="MessageBarLib/MessageView.cs" Line="5" Column="5" />
-      <File FileName="MessageBarTest/Main.cs" Line="7" Column="7" />
-      <File FileName="MessageBarTest/AppDelegate.cs" Line="7" Column="7" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone5s.7.1" />
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
