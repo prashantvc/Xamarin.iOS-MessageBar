@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBarSample", "MessageBarTest\MessageBarSample.csproj", "{3F197F69-28A5-4A9B-9F1F-FD903EE60BBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBarSample", "MessageBarTest\MessageBarSample.csproj", "{492BF4B1-D8B0-4A44-8A37-B58474D9F507}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBarLib", "MessageBarLib\MessageBarLib.csproj", "{2848ABC8-92CF-4D70-BFD1-218E6D00D8BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBarLib", "MessageBarLib\MessageBarLib.csproj", "{CD1C7826-7F54-4814-B485-F00362989365}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBarLib-Classic", "MessageBarLib\MessageBarLib-Classic.csproj", "{2848ABC8-92CF-4D70-BFD1-218E6D00D8BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBarSample-Classic", "MessageBarTest\MessageBarSample-Classic.csproj", "{3F197F69-28A5-4A9B-9F1F-FD903EE60BBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +43,33 @@ Global
 		{3F197F69-28A5-4A9B-9F1F-FD903EE60BBF}.Release|iPhone.Build.0 = Release|iPhone
 		{3F197F69-28A5-4A9B-9F1F-FD903EE60BBF}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{3F197F69-28A5-4A9B-9F1F-FD903EE60BBF}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{492BF4B1-D8B0-4A44-8A37-B58474D9F507}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{492BF4B1-D8B0-4A44-8A37-B58474D9F507}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{492BF4B1-D8B0-4A44-8A37-B58474D9F507}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{492BF4B1-D8B0-4A44-8A37-B58474D9F507}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{492BF4B1-D8B0-4A44-8A37-B58474D9F507}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{492BF4B1-D8B0-4A44-8A37-B58474D9F507}.Debug|iPhone.Build.0 = Debug|iPhone
+		{492BF4B1-D8B0-4A44-8A37-B58474D9F507}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{492BF4B1-D8B0-4A44-8A37-B58474D9F507}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{492BF4B1-D8B0-4A44-8A37-B58474D9F507}.Release|iPhone.ActiveCfg = Release|iPhone
+		{492BF4B1-D8B0-4A44-8A37-B58474D9F507}.Release|iPhone.Build.0 = Release|iPhone
+		{492BF4B1-D8B0-4A44-8A37-B58474D9F507}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{492BF4B1-D8B0-4A44-8A37-B58474D9F507}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{CD1C7826-7F54-4814-B485-F00362989365}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{CD1C7826-7F54-4814-B485-F00362989365}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{CD1C7826-7F54-4814-B485-F00362989365}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{CD1C7826-7F54-4814-B485-F00362989365}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{CD1C7826-7F54-4814-B485-F00362989365}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{CD1C7826-7F54-4814-B485-F00362989365}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{CD1C7826-7F54-4814-B485-F00362989365}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{CD1C7826-7F54-4814-B485-F00362989365}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{CD1C7826-7F54-4814-B485-F00362989365}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{CD1C7826-7F54-4814-B485-F00362989365}.Release|iPhone.Build.0 = Release|Any CPU
+		{CD1C7826-7F54-4814-B485-F00362989365}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{CD1C7826-7F54-4814-B485-F00362989365}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MessageBarTest\MessageBarSample.csproj
+		StartupItem = MessageBarTest\MessageBarSample-Classic.csproj
 		Policies = $0
 		$0.StandardHeader = $1
 		$1.Text = @\n${FileName}\n \nAuthor:\n      ${AuthorName} <${AuthorEmail}>\n\nCopyright (c) ${Year} ${CopyrightHolder}\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the "Software"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE.

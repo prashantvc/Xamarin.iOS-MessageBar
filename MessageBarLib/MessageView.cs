@@ -24,11 +24,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using MonoTouch.UIKit;
-using System.Drawing;
 using System;
+using System.Drawing;
+#if __UNIFIED__
+using UIKit;
+using Foundation;
+using CoreGraphics;
+using RectangleF=CoreGraphics.CGRect;
+using SizeF=CoreGraphics.CGSize;
+#else
+using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 using MonoTouch.CoreGraphics;
+#endif
 
 namespace MessageBar
 {
@@ -42,8 +50,13 @@ namespace MessageBar
 		const float IconSize = 36.0f;
 		const float TextOffset = 2.0f;
 		static readonly UIColor DescriptionColor = null;
+		#if __UNIFIED__
+		nfloat height;
+		nfloat width;
+		#else
 		float height;
 		float width;
+		#endif
 
 
 		NSString Title { get; set; }
@@ -57,6 +70,22 @@ namespace MessageBar
 		public bool Hit { get; set; }
 
 
+		#if __UNIFIED__
+		public nfloat Height {
+			get {
+				if (height == 0) {
+					SizeF titleLabelSize = TitleSize ();
+					SizeF descriptionLabelSize = DescriptionSize ();
+					height = (nfloat) Math.Max ((Padding * 2) + titleLabelSize.Height + descriptionLabelSize.Height, (Padding * 2) + IconSize);
+				}
+
+				return height;
+			}
+			private set {
+				height = value;
+			}
+		}
+		#else
 		public float Height {
 			get {
 				if (height == 0) {
@@ -71,8 +100,10 @@ namespace MessageBar
 				height = value;
 			}
 		}
-			
-		public float Width {
+		#endif
+
+		#if __UNIFIED__
+		public nfloat Width {
 			get {
 				if (width == 0) {
 					width = GetStatusBarFrame ().Width;
@@ -84,15 +115,38 @@ namespace MessageBar
 				width = value;
 			}
 		}
+		#else
+		public float Width {
+		get {
+				if (width == 0) {
+					width = GetStatusBarFrame ().Width;
+				}
+
+				return width;
+			}
+			private set {
+				width = value;
+			}
+		}
+		#endif			
 
 		internal IStyleSheetProvider StylesheetProvider { get; set; }
 
+		#if __UNIFIED__
+		nfloat AvailableWidth {
+			get {
+				nfloat maxWidth = (Width - (Padding * 3) - IconSize);
+				return maxWidth;
+			}
+		}
+		#else
 		float AvailableWidth {
 			get {
 				float maxWidth = (Width - (Padding * 3) - IconSize);
 				return maxWidth;
 			}
 		}
+		#endif
 
 		static MessageView ()
 		{
@@ -167,16 +221,24 @@ namespace MessageBar
 
 			context.BeginPath ();
 			context.MoveTo (0, rect.Size.Height);
+			#if __UNIFIED__
+			#else
 			context.SetStrokeColorWithColor (styleSheet.StrokeColorForMessageType (MessageType).CGColor);
+			#endif
 			context.SetLineWidth (1);
 			context.AddLineToPoint (rect.Size.Width, rect.Size.Height);
 			context.StrokePath ();
 			context.RestoreState ();
 			context.SaveState ();
 
-			
+
+			#if __UNIFIED__
+			nfloat xOffset = Padding;
+			nfloat yOffset = Padding;
+			#else
 			float xOffset = Padding;
 			float yOffset = Padding;
+			#endif
 			styleSheet.IconImageForMessageType (MessageType).Draw (new RectangleF (xOffset, yOffset, IconSize, IconSize));
 			context.SaveState ();
 				
@@ -202,7 +264,7 @@ namespace MessageBar
 
 		SizeF TitleSize ()
 		{
-			var boundedSize = new SizeF (AvailableWidth, float.MaxValue);
+			var boundedSize = new SizeF ((float)AvailableWidth, float.MaxValue);
 			SizeF titleLabelSize;
 			if (!IsRunningiOS7OrLater ()) {
 
