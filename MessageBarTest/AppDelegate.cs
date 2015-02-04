@@ -1,6 +1,6 @@
 using System;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using MonoTouch.Dialog;
 using MessageBar;
 
@@ -38,7 +38,10 @@ namespace MessageBarTest
 						("Success", "This is success", MessageType.Success))
 				},
 				new Section {
-					new StringElement ("Hide all", MessageBarManager.SharedInstance.HideAll)
+					new StringElement ("Hide all", MessageBarManager.SharedInstance.HideAll),
+					new StringElement ("Switch to at the bottom or at the top", () => {
+						MessageBarManager.SharedInstance.ShowAtTheBottom = MessageBarManager.SharedInstance.ShowAtTheBottom == false;
+					})
 				}
 			};
 
