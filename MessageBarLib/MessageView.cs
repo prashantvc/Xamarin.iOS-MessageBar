@@ -24,11 +24,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using MonoTouch.UIKit;
-using System.Drawing;
+using UIKit;
+using CoreGraphics;
 using System;
-using MonoTouch.Foundation;
-using MonoTouch.CoreGraphics;
+using Foundation;
+using System.Drawing;
 
 namespace MessageBar
 {
@@ -39,11 +39,11 @@ namespace MessageBar
 		static UIColor TitleColor;
 		const float Padding = 10.0f;
 		const int IOS7Identifier = 7;
-		const float IconSize = 36.0f;
+		readonly nfloat IconSize = 36.0f;
 		const float TextOffset = 2.0f;
 		static readonly UIColor DescriptionColor = null;
 		float height;
-		float width;
+		nfloat width;
 
 
 		NSString Title { get; set; }
@@ -60,9 +60,9 @@ namespace MessageBar
 		public float Height {
 			get {
 				if (height == 0) {
-					SizeF titleLabelSize = TitleSize ();
-					SizeF descriptionLabelSize = DescriptionSize ();
-					height = Math.Max ((Padding * 2) + titleLabelSize.Height + descriptionLabelSize.Height, (Padding * 2) + IconSize);
+					CGSize titleLabelSize = TitleSize ();
+					CGSize descriptionLabelSize = DescriptionSize ();
+					height = (float)Math.Max ((Padding * 2) + titleLabelSize.Height + descriptionLabelSize.Height, (Padding * 2) + IconSize);
 				}
 
 				return height;
@@ -72,7 +72,7 @@ namespace MessageBar
 			}
 		}
 			
-		public float Width {
+		public nfloat Width {
 			get {
 				if (width == 0) {
 					width = GetStatusBarFrame ().Width;
@@ -87,9 +87,9 @@ namespace MessageBar
 
 		internal IStyleSheetProvider StylesheetProvider { get; set; }
 
-		float AvailableWidth {
+		nfloat AvailableWidth {
 			get {
-				float maxWidth = (Width - (Padding * 3) - IconSize);
+				nfloat maxWidth = (Width - (Padding * 3) - IconSize);
 				return maxWidth;
 			}
 		}
@@ -109,7 +109,7 @@ namespace MessageBar
 		}
 
 		internal MessageView (NSString title, NSString description, MessageType type)
-			: base (RectangleF.Empty)
+			: base (CGRect.Empty)
 		{
 			BackgroundColor = UIColor.Clear;
 			ClipsToBounds = false;
@@ -125,21 +125,22 @@ namespace MessageBar
 		}
 
 		void OrientationChanged (NSNotification notification){
-			Frame = new RectangleF (Frame.X, Frame.Y, GetStatusBarFrame ().Width, Frame.Height);
+			Frame = new CGRect (Frame.X, Frame.Y, GetStatusBarFrame ().Width, Frame.Height);
 			SetNeedsDisplay ();
 		}
 
-		RectangleF GetStatusBarFrame()
+		CGRect GetStatusBarFrame()
 		{
 			var windowFrame = OrientFrame (UIApplication.SharedApplication.KeyWindow.Frame);
 			var statusFrame = OrientFrame (UIApplication.SharedApplication.StatusBarFrame);
 
-			return new RectangleF (windowFrame.X, windowFrame.Y, windowFrame.Width, statusFrame.Height);
+			return new CGRect (windowFrame.X, windowFrame.Y, windowFrame.Width, statusFrame.Height);
 		}
 
-		RectangleF OrientFrame(RectangleF frame){
-			if (IsDeviceLandscape(UIDevice.CurrentDevice.Orientation) || IsStatusBarLandscape(UIApplication.SharedApplication.StatusBarOrientation)) {
-				frame = new RectangleF (frame.X, frame.Y, frame.Height, frame.Width);
+		CGRect OrientFrame(CGRect frame){
+			//This size has already inverted in iOS8, but not on simulator, seems odd
+			if (!IsRunningiOS8OrLater () && (IsDeviceLandscape(UIDevice.CurrentDevice.Orientation) || IsStatusBarLandscape(UIApplication.SharedApplication.StatusBarOrientation))) {
+				frame = new CGRect (frame.X, frame.Y, frame.Height, frame.Width);
 			}
 
 			return frame;
@@ -153,7 +154,7 @@ namespace MessageBar
 			return orientation == UIInterfaceOrientation.LandscapeLeft || orientation == UIInterfaceOrientation.LandscapeRight;
 		}
 
-		public override void Draw (RectangleF rect)
+		public override void Draw (CGRect rect)
 		{
 			var context = UIGraphics.GetCurrentContext ();
 
@@ -167,7 +168,7 @@ namespace MessageBar
 
 			context.BeginPath ();
 			context.MoveTo (0, rect.Size.Height);
-			context.SetStrokeColorWithColor (styleSheet.StrokeColorForMessageType (MessageType).CGColor);
+			context.SetStrokeColor(styleSheet.StrokeColorForMessageType (MessageType).CGColor);
 			context.SetLineWidth (1);
 			context.AddLineToPoint (rect.Size.Width, rect.Size.Height);
 			context.StrokePath ();
@@ -175,41 +176,40 @@ namespace MessageBar
 			context.SaveState ();
 
 			
-			float xOffset = Padding;
-			float yOffset = Padding;
-			styleSheet.IconImageForMessageType (MessageType).Draw (new RectangleF (xOffset, yOffset, IconSize, IconSize));
+			nfloat xOffset = Padding;
+			nfloat yOffset = Padding;
+			styleSheet.IconImageForMessageType (MessageType).Draw (new CGRect (xOffset, yOffset, IconSize, IconSize));
 			context.SaveState ();
 				
 			yOffset -= TextOffset;
 			xOffset += IconSize + Padding;
-			SizeF titleLabelSize = TitleSize ();
+			CGSize titleLabelSize = TitleSize ();
 			if (string.IsNullOrEmpty (Title) && !string.IsNullOrEmpty (Description)) {
 				yOffset = (float)(Math.Ceiling ((double)rect.Size.Height * 0.5) - Math.Ceiling ((double)titleLabelSize.Height * 0.5) - TextOffset);
 			}
 
 			TitleColor.SetColor ();
 				
-			var titleRectangle = new RectangleF (xOffset, yOffset, titleLabelSize.Width, titleLabelSize.Height);
+			var titleRectangle = new CGRect (xOffset, yOffset, titleLabelSize.Width, titleLabelSize.Height);
 			Title.DrawString (titleRectangle, TitleFont, UILineBreakMode.TailTruncation, UITextAlignment.Left);
 			yOffset += titleLabelSize.Height;
 				
-			SizeF descriptionLabelSize = DescriptionSize ();
+			CGSize descriptionLabelSize = DescriptionSize ();
 			DescriptionColor.SetColor ();
-			var descriptionRectangle = new RectangleF (xOffset, yOffset, descriptionLabelSize.Width, descriptionLabelSize.Height);
+			var descriptionRectangle = new CGRect (xOffset, yOffset, descriptionLabelSize.Width, descriptionLabelSize.Height);
 			Description.DrawString (descriptionRectangle, DescriptionFont, UILineBreakMode.TailTruncation, UITextAlignment.Left);
 		}
 
 
-		SizeF TitleSize ()
+		CGSize TitleSize ()
 		{
-			var boundedSize = new SizeF (AvailableWidth, float.MaxValue);
-			SizeF titleLabelSize;
+			var boundedSize = new SizeF ((float)AvailableWidth, float.MaxValue);
+			CGSize titleLabelSize;
 			if (!IsRunningiOS7OrLater ()) {
 
 				var attr = new UIStringAttributes (NSDictionary.FromObjectAndKey (TitleFont, (NSString)TitleFont.Name));
 				titleLabelSize = Title.GetBoundingRect (
-					boundedSize, NSStringDrawingOptions.TruncatesLastVisibleLine, attr, null)
-					.Size;
+					boundedSize, NSStringDrawingOptions.TruncatesLastVisibleLine, attr, null).Size;
 
 			} else {
 				titleLabelSize = Title.StringSize (TitleFont, boundedSize, UILineBreakMode.TailTruncation);
@@ -218,10 +218,10 @@ namespace MessageBar
 			return titleLabelSize;
 		}
 
-		SizeF DescriptionSize ()
+		CGSize DescriptionSize ()
 		{
-			var boundedSize = new SizeF (AvailableWidth, float.MaxValue);
-			SizeF descriptionLabelSize;
+			var boundedSize = new CGSize (AvailableWidth, float.MaxValue);
+			CGSize descriptionLabelSize;
 			if (!IsRunningiOS7OrLater ()) {
 				var attr = new UIStringAttributes (NSDictionary.FromObjectAndKey (TitleFont, (NSString)TitleFont.Name));
 				descriptionLabelSize = Description.GetBoundingRect (
@@ -240,7 +240,14 @@ namespace MessageBar
 		{
 			string systemVersion = UIDevice.CurrentDevice.SystemVersion;
 
-			return systemVersion.Contains ("8") || systemVersion.Contains("7");
+			return IsRunningiOS8OrLater () || systemVersion.Contains("7");
+		}
+
+		bool IsRunningiOS8OrLater ()
+		{
+			string systemVersion = UIDevice.CurrentDevice.SystemVersion;
+
+			return systemVersion.Contains ("8");
 		}
 	}
 }

@@ -26,7 +26,7 @@
 
 
 
-using MonoTouch.UIKit;
+using UIKit;
 
 namespace MessageBar
 {

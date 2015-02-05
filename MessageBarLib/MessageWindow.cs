@@ -1,4 +1,4 @@
-﻿//
+//
 // MessageWindow.cs
 //
 // Author:
@@ -24,13 +24,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using MonoTouch.UIKit;
+using UIKit;
+using CoreGraphics;
 
 namespace MessageBar
 {
 	public class MessageWindow : UIWindow
 	{
-		public override UIView HitTest (System.Drawing.PointF point, UIEvent uievent)
+		public override UIView HitTest (CGPoint point, UIEvent uievent)
 		{
 			var hitView = base.HitTest (point, uievent);
 

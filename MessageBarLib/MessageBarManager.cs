@@ -27,9 +27,9 @@
 
 
 using System;
-using MonoTouch.UIKit;
-using System.Drawing;
-using MonoTouch.Foundation;
+using UIKit;
+using CoreGraphics;
+using Foundation;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -59,7 +59,7 @@ namespace MessageBar
 			styleSheet = new MessageBarStyleSheet ();
 		}
 
-		float MessageBarOffset { get; set; }
+		nfloat MessageBarOffset { get; set; }
 
 		bool MessageVisible{ get; set; }
 
@@ -87,6 +87,10 @@ namespace MessageBar
 				return  GetMessageBarViewController ().View;
 			}
 		}
+
+		nfloat initialPosition = 0;
+		nfloat showPosition = 0;
+		public bool ShowAtTheBottom {get; set;}
 
 		/// <summary>
 		/// Shows the message
@@ -119,7 +123,7 @@ namespace MessageBar
 			MessageWindowView.BringSubviewToFront (messageView);
 
 			MessageBarQueue.Enqueue (messageView);
-		
+
 			if (!MessageVisible) {
 				ShowNextMessage ();
 			}
@@ -130,7 +134,16 @@ namespace MessageBar
 			if (MessageBarQueue.Count > 0) {
 				MessageVisible = true;
 				MessageView messageView = MessageBarQueue.Dequeue ();
-				messageView.Frame = new RectangleF (0, -messageView.Height, messageView.Width, messageView.Height);
+
+				if (ShowAtTheBottom) {
+					initialPosition = MessageWindowView.Bounds.Height + messageView.Height;
+					showPosition = MessageWindowView.Bounds.Height - messageView.Height;
+				} else {
+					initialPosition = MessageWindowView.Bounds.Y - messageView.Height;
+					showPosition = MessageWindowView.Bounds.Y + MessageBarOffset;
+				}
+
+				messageView.Frame = new CGRect (0, initialPosition, messageView.Width, messageView.Height);
 				messageView.Hidden = false;
 				messageView.SetNeedsDisplay ();
 
@@ -141,16 +154,18 @@ namespace MessageBar
 
 				UIView.Animate (DismissAnimationDuration, 
 					() => 
-						messageView.Frame = new RectangleF (messageView.Frame.X, 
-						MessageBarOffset + messageView.Frame.Y + messageView.Height, 
+					messageView.Frame = new CGRect (messageView.Frame.X, 
+						showPosition, 
 						messageView.Width, messageView.Height)
 				);
 
 				//Need a better way of dissmissing the method
 				var dismiss = new Timer (DismissMessage, messageView, TimeSpan.FromSeconds (DisplayDelay),
-					              TimeSpan.FromMilliseconds (-1));
+					TimeSpan.FromMilliseconds (-1));
 			}
 		}
+
+
 
 		/// <summary>
 		/// Hides all messages
@@ -196,9 +211,9 @@ namespace MessageBar
 				messageView.Hit = true;
 				UIView.Animate (DismissAnimationDuration, 
 					delegate {
-						messageView.Frame = new RectangleF (
+						messageView.Frame = new CGRect (
 							messageView.Frame.X, 
-							- (messageView.Frame.Height - MessageBarOffset), 
+							initialPosition, 
 							messageView.Frame.Width, messageView.Frame.Height);
 					}, 
 					delegate {
@@ -234,7 +249,7 @@ namespace MessageBar
 			return (MessageBarViewController) messageWindow.RootViewController;
 		}
 
-		 
+
 		MessageWindow messageWindow;
 		const float DisplayDelay = 3.0f;
 		const float DismissAnimationDuration = 0.25f;
@@ -251,5 +266,11 @@ namespace MessageBar
 
 		#endregion
 
+		protected override void Dispose (bool disposing)
+		{
+			base.Dispose (disposing);
+			instance = null;
+		}
 	}
 }
+ 
