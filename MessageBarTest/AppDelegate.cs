@@ -41,6 +41,9 @@ namespace MessageBarTest
 					new StringElement ("Hide all", MessageBarManager.SharedInstance.HideAll),
 					new StringElement ("Switch to at the bottom or at the top", () => {
 						MessageBarManager.SharedInstance.ShowAtTheBottom = MessageBarManager.SharedInstance.ShowAtTheBottom == false;
+					}),
+					new StringElement ("Switch to discard repeated messages", () => {
+						MessageBarManager.SharedInstance.DiscardRepeated = MessageBarManager.SharedInstance.DiscardRepeated == false;
 					})
 				}
 			};

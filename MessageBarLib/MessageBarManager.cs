@@ -90,7 +90,17 @@ namespace MessageBar
 
 		nfloat initialPosition = 0;
 		nfloat showPosition = 0;
+		/// <summary>
+		/// Show all messages at the bottom.
+		/// </summary>
+		/// <value><c>true</c> if show at the bottom; otherwise, <c>false</c>.</value>
 		public bool ShowAtTheBottom {get; set;}
+		/// <summary>
+		/// Discard all repeated messages enqueued by a freak finger.
+		/// </summary>
+		/// <value><c>true</c> if discard repeated; otherwise, <c>false</c>.</value>
+		public bool DiscardRepeated {get; set;}
+		MessageView lastMessage;
 
 		/// <summary>
 		/// Shows the message
@@ -131,9 +141,10 @@ namespace MessageBar
 
 		void ShowNextMessage ()
 		{
-			if (MessageBarQueue.Count > 0) {
+			MessageView messageView = GetNextMessage ();
+
+			if (messageView != null) {
 				MessageVisible = true;
-				MessageView messageView = MessageBarQueue.Dequeue ();
 
 				if (ShowAtTheBottom) {
 					initialPosition = MessageWindowView.Bounds.Height + messageView.Height;
@@ -165,7 +176,31 @@ namespace MessageBar
 			}
 		}
 
+		MessageView GetNextMessage ()
+		{
+			MessageView message = null;
 
+			if (!DiscardRepeated)
+				return MessageBarQueue.Dequeue ();
+
+			while (MessageBarQueue.Count > 0) {
+				message = MessageBarQueue.Dequeue ();
+
+				if (IsEqualLastMessage (message))
+					message = null;
+				else
+					break;
+			}
+
+			lastMessage = message;
+
+			return message;
+		}
+
+
+		bool IsEqualLastMessage(MessageView message){
+			return message.Equals(lastMessage);
+		}
 
 		/// <summary>
 		/// Hides all messages
@@ -227,6 +262,8 @@ namespace MessageBar
 
 						if (MessageBarQueue.Count > 0) {
 							ShowNextMessage ();
+						}else{
+							lastMessage = null;
 						}
 					}
 				);
