@@ -249,5 +249,15 @@ namespace MessageBar
 
 			return systemVersion.Contains ("8");
 		}
+
+		public override bool Equals (object obj)
+		{
+			if(!(obj is MessageView))
+				return false;
+
+			var messageView = (MessageView)obj;
+
+			return this.Title == messageView.Title && this.MessageType == messageView.MessageType && this.Description == messageView.Description;
+		}
 	}
 }
