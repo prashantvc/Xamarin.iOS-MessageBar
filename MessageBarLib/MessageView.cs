@@ -71,7 +71,7 @@ namespace MessageBar
 				height = value;
 			}
 		}
-			
+
 		public nfloat Width {
 			get {
 				if (width == 0) {
@@ -124,12 +124,13 @@ namespace MessageBar
 			NSNotificationCenter.DefaultCenter.AddObserver (UIDevice.OrientationDidChangeNotification, OrientationChanged);
 		}
 
-		void OrientationChanged (NSNotification notification){
+		void OrientationChanged (NSNotification notification)
+		{
 			Frame = new CGRect (Frame.X, Frame.Y, GetStatusBarFrame ().Width, Frame.Height);
 			SetNeedsDisplay ();
 		}
 
-		CGRect GetStatusBarFrame()
+		CGRect GetStatusBarFrame ()
 		{
 			var windowFrame = OrientFrame (UIApplication.SharedApplication.KeyWindow.Frame);
 			var statusFrame = OrientFrame (UIApplication.SharedApplication.StatusBarFrame);
@@ -137,20 +138,23 @@ namespace MessageBar
 			return new CGRect (windowFrame.X, windowFrame.Y, windowFrame.Width, statusFrame.Height);
 		}
 
-		CGRect OrientFrame(CGRect frame){
+		CGRect OrientFrame (CGRect frame)
+		{
 			//This size has already inverted in iOS8, but not on simulator, seems odd
-			if (!IsRunningiOS8OrLater () && (IsDeviceLandscape(UIDevice.CurrentDevice.Orientation) || IsStatusBarLandscape(UIApplication.SharedApplication.StatusBarOrientation))) {
+			if (!IsRunningiOS8OrLater () && (IsDeviceLandscape (UIDevice.CurrentDevice.Orientation) || IsStatusBarLandscape (UIApplication.SharedApplication.StatusBarOrientation))) {
 				frame = new CGRect (frame.X, frame.Y, frame.Height, frame.Width);
 			}
 
 			return frame;
 		}
 
-		bool IsDeviceLandscape (UIDeviceOrientation orientation) {
+		bool IsDeviceLandscape (UIDeviceOrientation orientation)
+		{
 			return orientation == UIDeviceOrientation.LandscapeLeft || orientation == UIDeviceOrientation.LandscapeRight;
 		}
 
-		bool IsStatusBarLandscape (UIInterfaceOrientation orientation) {
+		bool IsStatusBarLandscape (UIInterfaceOrientation orientation)
+		{
 			return orientation == UIInterfaceOrientation.LandscapeLeft || orientation == UIInterfaceOrientation.LandscapeRight;
 		}
 
@@ -168,7 +172,7 @@ namespace MessageBar
 
 			context.BeginPath ();
 			context.MoveTo (0, rect.Size.Height);
-			context.SetStrokeColor(styleSheet.StrokeColorForMessageType (MessageType).CGColor);
+			context.SetStrokeColor (styleSheet.StrokeColorForMessageType (MessageType).CGColor);
 			context.SetLineWidth (1);
 			context.AddLineToPoint (rect.Size.Width, rect.Size.Height);
 			context.StrokePath ();
@@ -240,19 +244,19 @@ namespace MessageBar
 		{
 			string systemVersion = UIDevice.CurrentDevice.SystemVersion;
 
-			return IsRunningiOS8OrLater () || systemVersion.Contains("7");
+			return IsRunningiOS8OrLater () || systemVersion.Contains ("7");
 		}
 
 		bool IsRunningiOS8OrLater ()
 		{
-			string systemVersion = UIDevice.CurrentDevice.SystemVersion;
+			var systemVersion = int.Parse (UIDevice.CurrentDevice.SystemVersion.Substring (0, 1));
 
-			return systemVersion.Contains ("8");
+			return systemVersion >= 8;
 		}
 
 		public override bool Equals (object obj)
 		{
-			if(!(obj is MessageView))
+			if (!(obj is MessageView))
 				return false;
 
 			var messageView = (MessageView)obj;
