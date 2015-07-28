@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>@dikoga</authors>
+    <owners>@prshntvc</owners>
+    <projectUrl>https://github.com/prashantvc/Xamarin.iOS-MessageBar</projectUrl>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>MesageBar iOS Xamarin Notification</tags>
+  </metadata>
+</package>
