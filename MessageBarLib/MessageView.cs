@@ -50,6 +50,10 @@ namespace MessageBar
 
 		new NSString Description { get; set; }
 
+		public bool HasTitle { get { return !string.IsNullOrEmpty (Title); } }
+
+		public bool HasDescription { get { return !string.IsNullOrEmpty (Description); } }
+
 		MessageType MessageType { get; set; }
 
 		public Action OnDismiss { get; set; }
@@ -187,26 +191,35 @@ namespace MessageBar
 				
 			yOffset -= TextOffset;
 			xOffset += IconSize + Padding;
+
 			CGSize titleLabelSize = TitleSize ();
-			if (string.IsNullOrEmpty (Title) && !string.IsNullOrEmpty (Description)) {
-				yOffset = (float)(Math.Ceiling ((double)rect.Size.Height * 0.5) - Math.Ceiling ((double)titleLabelSize.Height * 0.5) - TextOffset);
+			CGSize descriptionLabelSize = DescriptionSize ();
+         	 
+			if (!HasTitle || !HasDescription) {
+				yOffset = (float)(Math.Ceiling ((double)rect.Size.Height * 0.5) - Math.Ceiling (
+					(double)(HasTitle ? titleLabelSize : descriptionLabelSize).Height * 0.5) - TextOffset);
 			}
 
-			TitleColor.SetColor ();
-				
-			var titleRectangle = new CGRect (xOffset, yOffset, titleLabelSize.Width, titleLabelSize.Height);
-			Title.DrawString (titleRectangle, TitleFont, UILineBreakMode.TailTruncation, UITextAlignment.Left);
-			yOffset += titleLabelSize.Height;
-				
-			CGSize descriptionLabelSize = DescriptionSize ();
-			DescriptionColor.SetColor ();
-			var descriptionRectangle = new CGRect (xOffset, yOffset, descriptionLabelSize.Width, descriptionLabelSize.Height);
-			Description.DrawString (descriptionRectangle, DescriptionFont, UILineBreakMode.TailTruncation, UITextAlignment.Left);
+			if (HasTitle) {
+				TitleColor.SetColor ();
+				var titleRectangle = new CGRect (xOffset, yOffset, titleLabelSize.Width, titleLabelSize.Height);
+				Title.DrawString (titleRectangle, TitleFont, UILineBreakMode.TailTruncation, UITextAlignment.Left);
+				yOffset += titleLabelSize.Height;
+			}
+
+			if (HasDescription) {
+				DescriptionColor.SetColor ();
+				var descriptionRectangle = new CGRect (xOffset, yOffset, descriptionLabelSize.Width, descriptionLabelSize.Height);
+				Description.DrawString (descriptionRectangle, DescriptionFont, UILineBreakMode.TailTruncation, UITextAlignment.Left);
+			}
 		}
 
 
 		CGSize TitleSize ()
 		{
+			if (!HasTitle) {
+				return CGSize.Empty;
+			}
 			var boundedSize = new SizeF ((float)AvailableWidth, float.MaxValue);
 			CGSize titleLabelSize;
 			if (!IsRunningiOS7OrLater ()) {
@@ -224,6 +237,9 @@ namespace MessageBar
 
 		CGSize DescriptionSize ()
 		{
+			if (!HasDescription) {
+				return CGSize.Empty;
+			}
 			var boundedSize = new CGSize (AvailableWidth, float.MaxValue);
 			CGSize descriptionLabelSize;
 			if (!IsRunningiOS7OrLater ()) {
