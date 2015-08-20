@@ -1,5 +1,4 @@
-﻿//
-// MessageBarViewController.cs
+﻿// MessageBarViewController.cs
 //
 // Author:
 //       Prashant Cholachagudda <pvc@outlook.com>
@@ -23,16 +22,50 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
+
+// Improved and documented by Bjarke Søgaard, https://github.com/Falgantil
+
 using System;
+using System.Linq;
+
 using UIKit;
 
 namespace MessageBar
 {
-	public class MessageBarViewController : UIViewController
-	{
-		public MessageBarViewController ()
-		{
-		}
-	}
-}
+    /// <summary>
+    ///     The Message Bar View Controller. Nothing fancy about this, just a basic View Controller
+    /// </summary>
+    public class MessageBarViewController : UIViewController
+    {
+        #region Constructors and Destructors
 
+        /// <summary>
+        /// The preferred UIStatusBarStyle for this UIViewController.
+        /// </summary>
+        /// <returns>
+        /// A UIStatusBarStyle key that specifies the view controller's preferred status bar style.
+        /// </returns>
+        /// <remarks>
+        /// <para>You can override the preferred status bar style for a view controller by implementing the childViewControllerForStatusBarStyle method.</para>
+        /// <para>If the return value from this method changes, call the setNeedsStatusBarAppearanceUpdate method.</para>
+        /// </remarks>
+        public override UIStatusBarStyle PreferredStatusBarStyle()
+        {
+            Type messageWindowType = typeof(MessageWindow);
+
+            var app = UIApplication.SharedApplication;
+            bool isNotMessageWindow = app.KeyWindow.GetType() != messageWindowType;
+
+            UIWindow window = isNotMessageWindow ? app.KeyWindow : app.Windows.FirstOrDefault(k => k.GetType() != messageWindowType);
+
+            if (window != null && window.RootViewController != null)
+            {
+                return window.RootViewController.PreferredStatusBarStyle();
+            }
+            return app.StatusBarStyle;
+        }
+
+        #endregion
+    }
+}

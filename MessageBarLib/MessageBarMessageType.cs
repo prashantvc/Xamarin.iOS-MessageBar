@@ -1,4 +1,3 @@
-//
 // MessageBarMessageType.cs
 //
 // Author:
@@ -24,14 +23,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+
+// Improved and documented by Bjarke Søgaard, https://github.com/Falgantil
+
 namespace MessageBar
 {
-	/// <summary>
-	/// Message types
-	/// </summary>
-	public enum MessageType {
-		Error,
-		Success,
-		Info
-	}
+    /// <summary>
+    ///     Message types
+    /// </summary>
+    public enum MessageType
+    {
+        /// <summary>
+        ///     The error message type.
+        /// </summary>
+        Error, 
+
+        /// <summary>
+        ///     The success message type.
+        /// </summary>
+        Success, 
+
+        /// <summary>
+        ///     The information message type.
+        /// </summary>
+        Info
+    }
 }
