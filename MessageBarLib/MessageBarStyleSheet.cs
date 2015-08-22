@@ -1,4 +1,3 @@
-//
 // DefaultMessageBarStyleSheet.cs
 //
 // Author:
@@ -25,105 +24,179 @@
 // THE SOFTWARE.
 
 
+// Improved and documented by Bjarke Søgaard, https://github.com/Falgantil
 
 using UIKit;
 
 namespace MessageBar
 {
-	public class MessageBarStyleSheet {
+    /// <summary>
+    ///     The Message Bar Style Sheet.
+    ///     This is responsible for providing the correct UI design, based on the Message Type being provided.
+    /// </summary>
+    public class MessageBarStyleSheet
+    {
+        #region Constants
 
-		const float Alpha = 0.96f;
-		const string ErrorIcon = "icon-error.png";
-		const string SuccessIcon = "icon-success.png";
-		const string InfoIcon = "icon-info.png";
+        /// <summary>
+        /// The alpha.
+        /// </summary>
+        private const float Alpha = 0.96f;
 
-		readonly UIColor errorBackgroundColor = null;
-		readonly UIColor successBackgroundColor = null;
-		readonly UIColor infoBackgroundColor = null;
-		readonly UIColor errorStrokeColor = null;
-		readonly UIColor successStrokeColor = null;
-		readonly UIColor infoStrokeColor = null;
+        /// <summary>
+        /// The error icon.
+        /// </summary>
+        private const string ErrorIcon = "icon-error.png";
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MessageBar.MessageBarStyleSheet"/> class.
-		/// </summary>
-		public MessageBarStyleSheet ()
-		{
-			errorBackgroundColor = UIColor.FromRGBA (1.0f, 0.611f, 0.0f, Alpha);
-			successBackgroundColor = UIColor.FromRGBA (0.0f, 0.831f, 0.176f, Alpha);
-			infoBackgroundColor = UIColor.FromRGBA (0.0f, 0.482f, 1.0f, Alpha);
-			errorStrokeColor = UIColor.FromRGBA (0.949f, 0.580f, 0.0f, 1.0f);
-			successStrokeColor = UIColor.FromRGBA (0.0f, 0.772f, 0.164f, 1.0f);
-			infoStrokeColor = UIColor.FromRGBA (0.0f, 0.415f, 0.803f, 1.0f);
-		}
+        /// <summary>
+        /// The info icon.
+        /// </summary>
+        private const string InfoIcon = "icon-info.png";
 
-		/// <summary>
-		/// Provides the background colour for message type
-		/// </summary>
-		/// <returns>The background colour for message type.</returns>
-		/// <param name="type">Message type</param>
-		public virtual UIColor BackgroundColorForMessageType (MessageType type)
-		{
-			UIColor backgroundColor = null;
-			switch (type) {
-			case MessageType.Error:
-				backgroundColor = errorBackgroundColor;
-				break;
-			case MessageType.Success:
-				backgroundColor = successBackgroundColor;
-				break;
-			case MessageType.Info:
-				backgroundColor = infoBackgroundColor;
-				break;
-			}
+        /// <summary>
+        /// The success icon.
+        /// </summary>
+        private const string SuccessIcon = "icon-success.png";
 
-			return backgroundColor;
-		}
+        #endregion
 
-		/// <summary>
-		/// Provides the stroke colour for message type
-		/// </summary>
-		/// <returns>The stroke colour for message type.</returns>
-		/// <param name="type">Message type</param>
-		public virtual UIColor StrokeColorForMessageType (MessageType type)
-		{
-			UIColor strokeColor = null;
-			switch (type) {
-			case MessageType.Error:
-				strokeColor = errorStrokeColor;
-				break;
-			case MessageType.Success:
-				strokeColor = successStrokeColor;
-				break;
-			case MessageType.Info:
-				strokeColor = infoStrokeColor;
-				break;
-			}
+        #region Fields
 
-			return strokeColor;
-		}
+        /// <summary>
+        /// The error background color.
+        /// </summary>
+        private readonly UIColor errorBackgroundColor;
 
-		/// <summary>
-		/// Provides the icon for message type
-		/// </summary>
-		/// <returns>The icon for message type.</returns>
-		/// <param name="type">Message type</param>
-		public virtual UIImage IconImageForMessageType (MessageType type)
-		{
-			UIImage iconImage = null;
-			switch (type) {
-			case MessageType.Error:
-				iconImage = UIImage.FromBundle (ErrorIcon);
-				break;
-			case MessageType.Success:
-				iconImage = UIImage.FromBundle (SuccessIcon);
-				break;
-			case MessageType.Info:
-				iconImage = UIImage.FromBundle (InfoIcon);
-				break;
-			}
+        /// <summary>
+        /// The error stroke color.
+        /// </summary>
+        private readonly UIColor errorStrokeColor;
 
-			return iconImage;
-		}
-	}
+        /// <summary>
+        /// The info background color.
+        /// </summary>
+        private readonly UIColor infoBackgroundColor;
+
+        /// <summary>
+        /// The info stroke color.
+        /// </summary>
+        private readonly UIColor infoStrokeColor;
+
+        /// <summary>
+        /// The success background color.
+        /// </summary>
+        private readonly UIColor successBackgroundColor;
+
+        /// <summary>
+        /// The success stroke color.
+        /// </summary>
+        private readonly UIColor successStrokeColor;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="MessageBar.MessageBarStyleSheet" /> class.
+        /// </summary>
+        public MessageBarStyleSheet()
+        {
+            this.errorBackgroundColor = UIColor.FromRGBA(1.0f, 0.611f, 0.0f, Alpha);
+            this.successBackgroundColor = UIColor.FromRGBA(0.0f, 0.831f, 0.176f, Alpha);
+            this.infoBackgroundColor = UIColor.FromRGBA(0.0f, 0.482f, 1.0f, Alpha);
+            this.errorStrokeColor = UIColor.FromRGBA(0.949f, 0.580f, 0.0f, 1.0f);
+            this.successStrokeColor = UIColor.FromRGBA(0.0f, 0.772f, 0.164f, 1.0f);
+            this.infoStrokeColor = UIColor.FromRGBA(0.0f, 0.415f, 0.803f, 1.0f);
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// Provides the background color for message type
+        /// </summary>
+        /// <param name="type">
+        /// Message type
+        /// </param>
+        /// <returns>
+        /// The background color for message type.
+        /// </returns>
+        public virtual UIColor BackgroundColorForMessageType(MessageType type)
+        {
+            UIColor backgroundColor = null;
+            switch (type)
+            {
+                case MessageType.Error:
+                    backgroundColor = this.errorBackgroundColor;
+                    break;
+                case MessageType.Success:
+                    backgroundColor = this.successBackgroundColor;
+                    break;
+                case MessageType.Info:
+                    backgroundColor = this.infoBackgroundColor;
+                    break;
+            }
+
+            return backgroundColor;
+        }
+
+        /// <summary>
+        /// Provides the icon for message type
+        /// </summary>
+        /// <param name="type">
+        /// Message type
+        /// </param>
+        /// <returns>
+        /// The icon for message type.
+        /// </returns>
+        public virtual UIImage IconImageForMessageType(MessageType type)
+        {
+            UIImage iconImage = null;
+            switch (type)
+            {
+                case MessageType.Error:
+                    iconImage = UIImage.FromBundle(ErrorIcon);
+                    break;
+                case MessageType.Success:
+                    iconImage = UIImage.FromBundle(SuccessIcon);
+                    break;
+                case MessageType.Info:
+                    iconImage = UIImage.FromBundle(InfoIcon);
+                    break;
+            }
+
+            return iconImage;
+        }
+
+        /// <summary>
+        /// Provides the stroke color for message type
+        /// </summary>
+        /// <param name="type">
+        /// Message type
+        /// </param>
+        /// <returns>
+        /// The stroke color for message type.
+        /// </returns>
+        public virtual UIColor StrokeColorForMessageType(MessageType type)
+        {
+            UIColor strokeColor = null;
+            switch (type)
+            {
+                case MessageType.Error:
+                    strokeColor = this.errorStrokeColor;
+                    break;
+                case MessageType.Success:
+                    strokeColor = this.successStrokeColor;
+                    break;
+                case MessageType.Info:
+                    strokeColor = this.infoStrokeColor;
+                    break;
+            }
+
+            return strokeColor;
+        }
+
+        #endregion
+    }
 }
