@@ -90,6 +90,7 @@ csx
 AppPackages/
 
 # Others
+[Pp]ackages
 [Bb]in
 [Oo]bj
 sql
