@@ -1,14 +1,30 @@
 ﻿<Properties StartupItem="MessageBarTest/MessageBarSample.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPad2.8.1" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MessageBarLib/MessageBarManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MessageBarTest/AppDelegate.cs">
     <Files>
-      <File FileName="MessageBarTest/AppDelegate.cs" Line="1" Column="1" />
-      <File FileName="MessageBarLib/MessageBarManager.cs" Line="3" Column="3" />
-      <File FileName="MessageBarLib/MessageView.cs" Line="21" Column="21" />
+      <File FileName="MessageBarTest/AppDelegate.cs" Line="96" Column="3" />
+      <File FileName="MessageBarUITests/Tests.cs" Line="31" Column="9" />
+      <File FileName="MessageBarTest/Info.plist" />
+      <File FileName="MessageBarLib/MessageWindow.cs" Line="58" Column="32" />
+      <File FileName="MessageBarLib/MessageBarManager.cs" Line="339" Column="66" />
+      <File FileName="MessageBarLib/MessageView.cs" Line="104" Column="22" />
+      <File FileName="MessageBarLib/MessageBarMessageType.cs" Line="1" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="MessageBar" expanded="True" selected="True">
+            <Node name="MessageBarUITests" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/prashant/playground/Xamarin.iOS-MessageBar/MessageBarTest/AppDelegate.cs" line="20" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.MessageBarSample PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.BE4F3049-E455-4595-B1C5-3DE2F5F541DF" />
 </Properties>

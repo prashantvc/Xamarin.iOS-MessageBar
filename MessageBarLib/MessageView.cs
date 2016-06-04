@@ -110,6 +110,7 @@ namespace MessageBar
             DescriptionFont = UIFont.SystemFontOfSize(14.0f);
             TitleColor = UIColor.FromWhiteAlpha(1.0f, 1.0f);
             DescriptionColor = UIColor.FromWhiteAlpha(1.0f, 1.0f);
+
         }
 
         /// <summary>

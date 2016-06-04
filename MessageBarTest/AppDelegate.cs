@@ -6,88 +6,93 @@ using MessageBar;
 
 namespace MessageBarTest
 {
-    // The UIApplicationDelegate for the application. This class is responsible for launching the
-    // User Interface of the application, as well as listening (and optionally responding) to
-    // application events from iOS.
-    [Register("AppDelegate")]
-    public partial class AppDelegate : UIApplicationDelegate
-    {
-        // class-level declarations
-        UIWindow window;
-        UINavigationController navigation;
+	// The UIApplicationDelegate for the application. This class is responsible for launching the
+	// User Interface of the application, as well as listening (and optionally responding) to
+	// application events from iOS.
+	[Register("AppDelegate")]
+	public partial class AppDelegate : UIApplicationDelegate
+	{
+		// class-level declarations
+		UIWindow window;
+		UINavigationController navigation;
 
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
-        {
-            window = new UIWindow(UIScreen.MainScreen.Bounds);
+		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+		{
 
-            var menu = new RootElement("Message Test")
-            {
-                new Section
-                {
-                    new StringElement(
-                        "Show Info",
-                        () =>
-                        MessageBarManager.SharedInstance.ShowMessage
-                            (
-                                "Info",
-                                "This is information",
-                                MessageType.Info,
-                                TimeSpan.FromSeconds(1.5),
-                                () => Console.WriteLine("Tapped"),
-                                () => Console.WriteLine("Automatically disappeared!"))),
+#if DEBUG
+			Xamarin.Calabash.Start();
+#endif
 
-                    new StringElement(
-                        "Show Error",
-                        () =>
-                        MessageBarManager.SharedInstance.ShowMessage
-                            ("Error", "This is error", MessageType.Error)),
+			window = new UIWindow(UIScreen.MainScreen.Bounds);
 
-                    new StringElement(
-                        "Show Success",
-                        () =>
-                        MessageBarManager.SharedInstance.ShowMessage
-                            ("Success", "This is success", MessageType.Success))
-                },
-                new Section
-                {
-                    new StringElement("Hide all", MessageBarManager.SharedInstance.HideAll),
-                    new StringElement(
-                        "Switch to at the bottom or at the top",
-                        () => {
-                            MessageBarManager.SharedInstance.ShowAtTheBottom =
-                                MessageBarManager.SharedInstance.ShowAtTheBottom == false;
-                        }),
-                    new StringElement(
-                        "Switch to discard repeated messages",
-                        () => {
-                            MessageBarManager.SharedInstance.DiscardRepeated =
-                                MessageBarManager.SharedInstance.DiscardRepeated == false;
-                        })
-                }
-            };
+			var menu = new RootElement("Message Test")
+			{
+				new Section
+				{
+					new StringElement(
+						"Show Info",
+						() =>
+						MessageBarManager.SharedInstance.ShowMessage
+							(
+								"Info",
+								"This is information",
+								MessageType.Info,
+								TimeSpan.FromSeconds(10),
+								() => Console.WriteLine("Tapped"),
+								() => Console.WriteLine("Automatically disappeared!"))),
 
-            var dvc = new DialogViewController(menu);
-            navigation = new SampleNavigationController();
-            navigation.PushViewController(dvc, false);
-            UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, true);
-            UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
+					new StringElement(
+						"Show Error",
+						() =>
+						MessageBarManager.SharedInstance.ShowMessage
+							("Error", "This is error", MessageType.Error)),
 
-            // If you have defined a root view controller, set it here:
-            window.RootViewController = navigation;
+					new StringElement(
+						"Show Success",
+						() =>
+						MessageBarManager.SharedInstance.ShowMessage
+							("Success", "This is success", MessageType.Success))
+				},
+				new Section
+				{
+					new StringElement("Hide all", MessageBarManager.SharedInstance.HideAll),
+					new StringElement(
+						"Switch to at the bottom or at the top",
+						() => {
+							MessageBarManager.SharedInstance.ShowAtTheBottom =
+								MessageBarManager.SharedInstance.ShowAtTheBottom == false;
+						}),
+					new StringElement(
+						"Switch to discard repeated messages",
+						() => {
+							MessageBarManager.SharedInstance.DiscardRepeated =
+								MessageBarManager.SharedInstance.DiscardRepeated == false;
+						})
+				}
+			};
 
-            // make the window visible
-            window.MakeKeyAndVisible();
+			var dvc = new DialogViewController(menu);
+			navigation = new SampleNavigationController();
+			navigation.PushViewController(dvc, false);
+			UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, true);
+			UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
 
-            return true;
-        }
-    }
+			// If you have defined a root view controller, set it here:
+			window.RootViewController = navigation;
 
-    public class SampleNavigationController : UINavigationController
-    {
-        public override UIStatusBarStyle PreferredStatusBarStyle()
-        {
-            return UIStatusBarStyle.LightContent;
-        }
-    }
+			// make the window visible
+			window.MakeKeyAndVisible();
+
+			return true;
+		}
+	}
+
+	public class SampleNavigationController : UINavigationController
+	{
+		public override UIStatusBarStyle PreferredStatusBarStyle()
+		{
+			return UIStatusBarStyle.LightContent;
+		}
+	}
 }
 
