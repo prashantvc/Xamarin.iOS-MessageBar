@@ -1,7 +1,7 @@
 Message Bar
 ----
 
-Update: The library is now avaiable in Xamarin Component Store: https://components.xamarin.com/view/MessageBar-ios
+Available on Nuget: https://www.nuget.org/packages/MessageBarLib/
 
 System-wide dropdown messages for iOS
 
