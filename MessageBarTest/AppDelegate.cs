@@ -37,7 +37,7 @@ namespace MessageBarTest
 								"Info",
 								"This is information",
 								MessageType.Info,
-								TimeSpan.FromSeconds(10),
+								TimeSpan.FromSeconds(5),
 								() => Console.WriteLine("Tapped"),
 								() => Console.WriteLine("Automatically disappeared!"))),
 

@@ -36,9 +36,36 @@ namespace MessageBarUITests
 		}
 
 		[Test]
-		public void AppLaunches()
+		public void WhenTappedOnTheInfoButtonShowInformationMessage()
 		{
-			app.Repl();
+			app.Tap("Show Info");
+			app.Screenshot("Before messagebar");
+			   
+			app.WaitForElement(e => e.Id("MessageBar"));
+			app.Screenshot("Messagebar dispalyed");
+			var title = app.Query(e => e.Id("MessageBar").Invoke("Title")).FirstOrDefault();
+			var text = app.Query(e => e.Id("MessageBar").Invoke("Description")).FirstOrDefault();
+			var type = app.Query(e => e.Id("MessageBar").Invoke("MessageType")).FirstOrDefault();
+
+			Assert.AreEqual("Info", title);
+			Assert.AreEqual("This is information", text);
+			Assert.AreEqual(type, 2);
+		}
+
+		[Test]
+		public void GivenAMessageWhenTappedThenDismissTheMessageBar(){
+
+			app.Tap("Show Info");
+
+			app.WaitForElement(e => e.Id("MessageBar"));
+			app.Screenshot("Messagebar dispalyed");
+			app.Tap(e => e.Id("MessageBar"));
+
+			app.Screenshot("Messagebar dismissed");
+
+			//var expectedCount = app.Query(e => e.Id("MessageBar")).Count();
+
+			//Assert.AreEqual(0, expectedCount, "Mesagebar still visible");
 		}
 	}
 }
