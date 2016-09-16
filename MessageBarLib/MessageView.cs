@@ -438,9 +438,7 @@ namespace MessageBar
 		/// </returns>
 		private static bool IsRunningiOS7OrLater()
 		{
-			string systemVersion = UIDevice.CurrentDevice.SystemVersion;
-
-			return IsRunningiOS8OrLater() || systemVersion.Contains("7");
+			return UIDevice.CurrentDevice.CheckSystemVersion(7, 0);
 		}
 
 		/// <summary>
@@ -451,9 +449,7 @@ namespace MessageBar
 		/// </returns>
 		private static bool IsRunningiOS8OrLater()
 		{
-			var systemVersion = int.Parse(UIDevice.CurrentDevice.SystemVersion.Substring(0, 1));
-
-			return systemVersion >= 8;
+			return UIDevice.CurrentDevice.CheckSystemVersion(8, 0);
 		}
 
 		/// <summary>
